@@ -12,11 +12,15 @@ import (
 
 type Response struct {
 	Message string `json:"message"`
+	Data    string `json:"data"`
 }
 
 func HomeHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
-	response := Response{Message: "Hello World"}
+	response := Response{
+		Message: "Hello world",
+		Data:    "1",
+	}
 	json.NewEncoder(w).Encode(response)
 }
 

@@ -1,5 +1,6 @@
-"use client"
+"use client";
 
+import styles from "../page.module.css";
 import { useState } from "react";
 
 export default function Test() {
@@ -11,23 +12,23 @@ export default function Test() {
         try {
             const response = await fetch("http://localhost:8080/"); // Calls backend
             const result = await response.json();
-            console.log("Response from backend:", result);
+            console.log("Response from backend :", result);
             setData(result.message);
         } catch (error) {
             console.error("Error fetching data:", error);
-            setData("Error fetching data.")
+            setData("Error fetching data.");
         } finally {
             setLoading(false);
         }
     };
 
     return (
-        <div className="container">
+        <main className={styles.main}>
             <h1>Test Page</h1>
             <button onClick={handleFetch} disabled={loading}>
                 {loading ? "Loading..." : "Fetch Data"}
             </button>
             <div>{data}</div>
-        </div>
+        </main>
     );
 }
