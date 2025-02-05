@@ -18,8 +18,35 @@ type Response struct {
 func HomeHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	response := Response{
-		Message: "Hello world",
+		Message: "Hello World",
 		Data:    "1",
+	}
+	json.NewEncoder(w).Encode(response)
+}
+
+func AmyHandler(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+	response := Response{
+		Message: "Hi Amy!",
+		Data:    "2",
+	}
+	json.NewEncoder(w).Encode(response)
+}
+
+func EmmaHandler(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+	response := Response{
+		Message: "Hi Emma!",
+		Data:    "3",
+	}
+	json.NewEncoder(w).Encode(response)
+}
+
+func JayHandler(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+	response := Response{
+		Message: "Hi Jay!",
+		Data:    "4",
 	}
 	json.NewEncoder(w).Encode(response)
 }
@@ -55,6 +82,9 @@ func main() {
 	// Wrap router with CORS middleware
 	mux := http.NewServeMux()
 	mux.HandleFunc("/", HomeHandler)
+	mux.HandleFunc("/amy", AmyHandler)
+	mux.HandleFunc("/emma", EmmaHandler)
+	mux.HandleFunc("/jay", JayHandler)
 	handler := enableCORS(mux)
 
 	// Start the server

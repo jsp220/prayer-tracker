@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import styles from "./page.module.css";
+import styles from "./sass/style.module.scss";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Image from "next/image";

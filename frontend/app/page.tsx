@@ -1,6 +1,7 @@
 import Image from "next/image";
-import styles from "./page.module.scss";
+import styles from "./sass/style.module.scss";
 import Link from "next/link";
+import Button from "./components/Button";
 
 export default function Home() {
     return (
@@ -16,7 +17,7 @@ export default function Home() {
             <ol>
                 <li>
                     <Link href="/test">
-                        <button>Go to Test Page</button>
+                        <Button label="Test" className="nav-buttons" />
                     </Link>
                 </li>
             </ol>

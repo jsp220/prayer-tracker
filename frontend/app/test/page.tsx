@@ -1,16 +1,46 @@
 "use client";
 
-import styles from "../page.module.css";
+import styles from "../sass/style.module.scss";
 import { useState } from "react";
 
 export default function Test() {
     const [loading, setLoading] = useState(false);
     const [data, setData] = useState("");
 
-    const handleFetch = async () => {
+    const handleAmyFetch = async () => {
         setLoading(true);
         try {
-            const response = await fetch("http://localhost:8080/"); // Calls backend
+            const response = await fetch("http://localhost:8080/amy"); // Calls backend
+            const result = await response.json();
+            console.log("Response from backend :", result);
+            setData(result.message);
+        } catch (error) {
+            console.error("Error fetching data:", error);
+            setData("Error fetching data.");
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const handleEmmaFetch = async () => {
+        setLoading(true);
+        try {
+            const response = await fetch("http://localhost:8080/emma"); // Calls backend
+            const result = await response.json();
+            console.log("Response from backend :", result);
+            setData(result.message);
+        } catch (error) {
+            console.error("Error fetching data:", error);
+            setData("Error fetching data.");
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const handleJayFetch = async () => {
+        setLoading(true);
+        try {
+            const response = await fetch("http://localhost:8080/jay"); // Calls backend
             const result = await response.json();
             console.log("Response from backend :", result);
             setData(result.message);
@@ -25,10 +55,16 @@ export default function Test() {
     return (
         <main className={styles.main}>
             <h1>Test Page</h1>
-            <button onClick={handleFetch} disabled={loading}>
-                {loading ? "Loading..." : "Fetch Data"}
+            <button onClick={handleAmyFetch} disabled={loading}>
+                {loading ? "Loading..." : "Amy"}
             </button>
-            <div>{data}</div>
+            <button onClick={handleEmmaFetch} disabled={loading}>
+                {loading ? "Loading..." : "Emma"}
+            </button>
+            <button onClick={handleJayFetch} disabled={loading}>
+                {loading ? "Loading..." : "Jay"}
+            </button>
+            <div className={styles.text}>{data}</div>
         </main>
     );
 }
