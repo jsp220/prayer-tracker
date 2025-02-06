@@ -48,31 +48,23 @@ export default function Home() {
     };
 
     if (isLoading) {
-        return (
-            <main className={styles.main}>
-                <h2>Loading...</h2>
-            </main>
-        );
+        return <h2>Loading...</h2>;
     }
 
     return (
-        <main className={styles.main}>
-            <div className={styles.loginPage}>
-                <div
-                    className={warningMessage ? styles.warning : styles.hidden}
-                >
-                    {warningMessage}
-                </div>
-                <input
-                    className={styles.loginInput}
-                    type="email"
-                    placeholder="Enter your email"
-                    onChange={(e) => setEmail(e.target.value)}
-                />
-                <button className={styles.loginButton} onClick={handleSubmit}>
-                    Login
-                </button>
+        <div className={styles.loginPage}>
+            <div className={warningMessage ? styles.warning : styles.hidden}>
+                {warningMessage}
             </div>
-        </main>
+            <input
+                className={styles.loginInput}
+                type="email"
+                placeholder="Enter your email"
+                onChange={(e) => setEmail(e.target.value)}
+            />
+            <button className={styles.loginButton} onClick={handleSubmit}>
+                Login
+            </button>
+        </div>
     );
 }

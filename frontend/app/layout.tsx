@@ -31,7 +31,7 @@ export default function RootLayout({
                     <header className={styles.header}>
                         <h1>Prayer Tracker</h1>
                     </header>
-                    {children}
+                    <main className={styles.main}>{children}</main>
                     <footer className={styles.footer}>
                         <a
                             href="https://github.com/jsp220"

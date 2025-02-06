@@ -53,8 +53,8 @@ export default function Test() {
     };
 
     return (
-        <main className={styles.main}>
-            <h1>Test Page</h1>
+        <>
+            <h2>Test Page</h2>
             <button onClick={handleAmyFetch} disabled={loading}>
                 {loading ? "Loading..." : "Amy"}
             </button>
@@ -65,6 +65,6 @@ export default function Test() {
                 {loading ? "Loading..." : "Jay"}
             </button>
             <div className={styles.text}>{data}</div>
-        </main>
+        </>
     );
 }
