@@ -1,51 +1,77 @@
-import Image from "next/image";
+"use client";
+
 import styles from "./sass/style.module.scss";
-import Link from "next/link";
-import Button from "./components/Button";
+
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
+    const router = useRouter();
+    const [isLoading, setIsLoading] = useState(true);
+    const [email, setEmail] = useState<string>("");
+    const [warningMessage, setWarningMessage] = useState<string | null>(null);
+
+    // Email validation regex
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    useEffect(() => {
+        const storedEmail = localStorage.getItem("email");
+
+        if (storedEmail) {
+            setEmail(storedEmail);
+            router.push("/prayers");
+        } else {
+            setIsLoading(false);
+        }
+    }, [router]);
+
+    useEffect(() => {
+        if (warningMessage) {
+            const removeTimeout = setTimeout(() => {
+                setWarningMessage(null);
+            }, 6000);
+
+            return () => {
+                clearTimeout(removeTimeout);
+            };
+        }
+    }, [warningMessage]);
+
+    const handleSubmit = () => {
+        if (!emailRegex.test(email)) {
+            setWarningMessage("Please enter a valid email.");
+            return;
+        } else {
+            localStorage.setItem("email", email);
+            router.push("/prayers");
+        }
+    };
+
+    if (isLoading) {
+        return (
+            <main className={styles.main}>
+                <h2>Loading...</h2>
+            </main>
+        );
+    }
+
     return (
         <main className={styles.main}>
-            <Image
-                className={styles.logo}
-                src="/next.svg"
-                alt="Next.js logo"
-                width={180}
-                height={38}
-                priority
-            />
-            <ol>
-                <li>
-                    <Link href="/test">
-                        <Button label="Test" className="nav-buttons" />
-                    </Link>
-                </li>
-            </ol>
-
-            <div className={styles.ctas}>
-                <a
-                    className={styles.primary}
-                    href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-                    target="_blank"
-                    rel="noopener noreferrer"
+            <div className={styles.loginPage}>
+                <div
+                    className={warningMessage ? styles.warning : styles.hidden}
                 >
-                    <Image
-                        className={styles.logo}
-                        src="/vercel.svg"
-                        alt="Vercel logomark"
-                        width={20}
-                        height={20}
-                    />
-                    Deploy now
-                </a>
-                <a
-                    href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={styles.secondary}
-                >
-                    Read our docs
-                </a>
+                    {warningMessage}
+                </div>
+                <input
+                    className={styles.loginInput}
+                    type="email"
+                    placeholder="Enter your email"
+                    onChange={(e) => setEmail(e.target.value)}
+                />
+                <button className={styles.loginButton} onClick={handleSubmit}>
+                    Login
+                </button>
             </div>
         </main>
     );

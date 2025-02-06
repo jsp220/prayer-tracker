@@ -1,4 +1,4 @@
-$page-padding: 80px;
+$page-padding: 0px;
 $gap-large: 64px;
 $gap-medium: 32px;
 $gap-small: 16px;
@@ -7,5 +7,11 @@ $gap-xsmall: 8px;
 $page-font: var(--font-geist-sans);
 $mono-font: var(--font-geist-mono);
 
-$gray-rgb-light: 0, 0, 0;
-$gray-rgb-dark: 255, 255, 255;
+$gray-rgb-dark: 20, 20, 20;
+
+// Color scheme from coolors.co
+$french-gray: #acadbc;
+$cool-gray: #9b9ece;
+$slate-blue: #6665dd;
+$palatinate-blue: #473bf0;
+$black: #000500;

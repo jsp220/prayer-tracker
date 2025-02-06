@@ -1,70 +1,102 @@
 @import "./abstracts/variables";
 
 .page {
-    --gray-rgb: #{$gray-rgb-light};
     --gray-alpha-200: rgba(var(--gray-rgb), 0.08);
     --gray-alpha-100: rgba(var(--gray-rgb), 0.05);
 
     --button-primary-hover: #383838;
     --button-secondary-hover: #f2f2f2;
 
-    display: grid;
-    grid-template-rows: 20px 1fr 20px;
+    display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-items: center;
-    min-height: 100svh;
+    min-height: 20vh;
     padding: $page-padding;
-    gap: $gap-large;
+    gap: $gap-small;
     font-family: $page-font;
+}
 
-    @media (prefers-color-scheme: dark) {
-        --gray-rgb: #{$gray-rgb-dark};
-        --gray-alpha-200: rgba(var(--gray-rgb), 0.145);
-        --gray-alpha-100: rgba(var(--gray-rgb), 0.06);
+.header {
+    border-radius: 5px;
+    margin: 20px;
+    min-width: 400px;
+    width: 40%;
+    height: 100px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 
-        --button-primary-hover: #ccc;
-        --button-secondary-hover: #1a1a1a;
+    h1 {
+        color: $cool-gray;
+        font-size: 50px;
+    }
+}
+
+@keyframes fadeout {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
     }
 }
 
 .main {
+    width: 100%;
     display: flex;
+    color: $cool-gray;
+    align-items: center;
     flex-direction: column;
-    gap: $gap-medium;
-    grid-row-start: 2;
+    gap: $gap-small;
 
-    ol {
-        font-family: $mono-font;
-        padding-left: 0;
-        margin: 0;
-        font-size: 14px;
-        line-height: 24px;
-        letter-spacing: -0.01em;
-        list-style-position: inside;
-        text-align: center;
+    .loginPage {
+        min-width: 400px;
+        width: 40%;
+        border-radius: 5px;
+        padding: 20px;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        gap: $gap-xsmall;
 
-        @media (min-width: 601px) {
-            text-align: left;
+        .warning {
+            height: 18px;
+            color: $cool-gray;
+            font-size: 18px;
+            font-weight: bold;
+            animation: fadeout 1s ease-in-out 3s forwards;
+        }
+
+        .hidden {
+            height: 18px;
         }
     }
 
-    li:not(:last-of-type) {
-        margin-bottom: $gap-xsmall;
+    .loginInput {
+        background-color: $french-gray;
+        outline: none;
+        width: 50%;
+        padding: 5px 2px;
+        border-radius: 3px;
+        color: $black;
+        font-size: 18px;
+
+        &::placeholder {
+            color: $black;
+        }
     }
 
-    code {
-        font-family: inherit;
-        background: var(--gray-alpha-100);
-        padding: 2px 4px;
+    .loginButton {
+        background-color: $cool-gray;
+        color: $black;
+        padding: 10px 20px;
         border-radius: 4px;
-        font-weight: 600;
-    }
+        font-size: 18px;
 
-    button {
-        height: 100px;
-        width: 200px;
-        border-radius: 4px;
-        font-size: 50px;
+        &:hover {
+            background-color: $french-gray;
+        }
     }
 }
 
@@ -131,8 +163,9 @@
 }
 
 .footer {
-    grid-row-start: 3;
+    position: absolute;
     display: flex;
+    bottom: 20px;
     gap: 24px;
 
     a {
@@ -148,10 +181,6 @@
         }
     }
 
-    img {
-        flex-shrink: 0;
-    }
-
     @media (max-width: 600px) {
         flex-wrap: wrap;
         align-items: center;
@@ -161,17 +190,6 @@
 
 @media (max-width: 600px) {
     .page {
-        padding: 32px;
         padding-bottom: 80px;
-    }
-
-    .main {
-        align-items: center;
-    }
-}
-
-@media (prefers-color-scheme: dark) {
-    .logo {
-        filter: invert(1);
     }
 }
