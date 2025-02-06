@@ -1,11 +1,13 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
 	"os"
+
+	"github.com/jsp220/prayer-tracker/backend/database"
+	"github.com/jsp220/prayer-tracker/backend/routes"
 
 	"github.com/joho/godotenv"
 )
@@ -13,42 +15,6 @@ import (
 type Response struct {
 	Message string `json:"message"`
 	Data    string `json:"data"`
-}
-
-func HomeHandler(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json")
-	response := Response{
-		Message: "Hello World",
-		Data:    "1",
-	}
-	json.NewEncoder(w).Encode(response)
-}
-
-func AmyHandler(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json")
-	response := Response{
-		Message: "Hi Amy!",
-		Data:    "2",
-	}
-	json.NewEncoder(w).Encode(response)
-}
-
-func EmmaHandler(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json")
-	response := Response{
-		Message: "Hi Emma!",
-		Data:    "3",
-	}
-	json.NewEncoder(w).Encode(response)
-}
-
-func JayHandler(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json")
-	response := Response{
-		Message: "Hi Jay!",
-		Data:    "4",
-	}
-	json.NewEncoder(w).Encode(response)
 }
 
 // CORS Middleware
@@ -74,17 +40,20 @@ func main() {
 		log.Println("Warning: No .env file found")
 	}
 
+	database.ConnectMongoDB()
+	defer database.DisconnectMongoDB()
+
 	port := os.Getenv("PORT")
 	if port == "" {
 		port = "8080"
 	}
 
-	// Wrap router with CORS middleware
 	mux := http.NewServeMux()
-	mux.HandleFunc("/", HomeHandler)
-	mux.HandleFunc("/amy", AmyHandler)
-	mux.HandleFunc("/emma", EmmaHandler)
-	mux.HandleFunc("/jay", JayHandler)
+
+	// Register routes
+	routes.RegisterRoutes(mux)
+
+	// Wrap router with CORS middleware
 	handler := enableCORS(mux)
 
 	// Start the server

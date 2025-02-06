@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"log"
 	"os"
-	"time"
 
 	"go.mongodb.org/mongo-driver/v2/mongo"
 	"go.mongodb.org/mongo-driver/v2/mongo/options"
@@ -16,30 +15,22 @@ var Client *mongo.Client
 
 // ConnectMongoDB initializes the database connection
 func ConnectMongoDB() {
+	if Client != nil {
+		fmt.Println("MongoDB is already connected")
+		return
+	}
+
 	// Load MongoDB URI from environment variables
 	uri := os.Getenv("MONGO_URI")
 	if uri == "" {
 		log.Fatal("MONGO_URI is not set in .env file")
 	}
 
-	client, err := mongo.Connect(options.Client().ApplyURI(uri))
+	// Create a new MongoDB client and connect
+	serverAPI := options.ServerAPI(options.ServerAPIVersion1)
+	client, err := mongo.Connect(options.Client().ApplyURI(uri).SetServerAPIOptions(serverAPI))
 	if err != nil {
 		log.Fatal("Error connecting to MongoDB:", err)
-	}
-
-	ctx, cancel := context.WithTimeout(context.Background(), 2*time.Second)
-	defer cancel()
-
-	defer func() {
-		if err = client.Disconnect(ctx); err != nil {
-			panic(err)
-		}
-	}()
-
-	// Verify connection
-	err = client.Ping(ctx, nil)
-	if err != nil {
-		log.Fatal("Could not ping MongoDB:", err)
 	}
 
 	fmt.Println("Connected to MongoDB!")
